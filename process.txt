@@ -1,0 +1,23 @@
+1.The project is about Real State Analytics Hub which provide Price Prediction based on user input like size ,location,bedRoom etc 
+2. A analytic Part which provide user to make Analyticaly Descious when buying house 
+
+3. Recommendation System in which user can select locality and then will be getting recommendation of houses near it To achieve all this : Steps: 1. Data Gathering -> Used Selenium and Beautiful Soup for Web Scaryping and COllecting the Data 2. Data Cleaning -> Performed Data Cleaning on the Data 3. Feature Engineering -> Used Regex , and KM Mean Clustring to make Categorical COlumns
+
+
+4.EDA-> Ploted Univariate and Multivariate plots(e.g Kdeplot,Boxplot,heatmap etc) to get Insight on data and identify important Column and Outlier and Missing Value 
+
+5.Outlier Removal:Used Box Plot and Isolation Forest to Identify the outlier and Treated (e.g.Removal/Caping/Discretization) Depanding on the data 
+
+6.Missing Value: - Identify type of missing value MCAR,MAR or MNAR mostly found MCAR and MAR in my data - For treating this missing value ,I used other common to which has strong relationship between missing value column and fill it using Linear Regression - Droped Some which has 30 % Empty Value 
+
+7.Feature Selection: -For Feature Selection I used different techniques and compare of it like, Used Embedded method like RegressionForestm Lasso and also wrapper based technique like RFE(Recursive feature Selection) and taken the averge value of all this technique - To validate my feature selection I trained 2 model I will feature selection and with not feature and I found no loss in r2-score 
+
+8.Model Selection:AS there are categorical column ,I used three differnet ways to encode it ,OrdinalEncoding,One Hot Encoding ,Target Encoding And created pipline and apply it to many ML_Algos,like XGBoost,random forest,svm,linear regrssion etc and metrics like R2-score and Mean Absolute Error to decide the Model Performence Finally R2-score was 90% 
+
+9.Created Analytics Module: The analysis which I got from my EDA I used that to create this module which ,which has plotly scattermap ,which provide visual repretation of prizes in rach sector ,added wordcloud,add piechart,area vs price 
+
+10. Recommendation Module:Used Content Based Recommendaton System which provide location of houses depending upon location and radius selected 
+
+11. Streamlit -> For user to interact Created Website using Streamlit 
+
+12. Finally Deployed it on AWS EC2

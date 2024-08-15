@@ -1,0 +1,198 @@
+# import streamlit as st
+# import pandas as pd
+# import numpy as np
+# import pickle
+
+# st.set_page_config(page_title="Viz Demo")
+# with open('./pages/pipeline.pkl','rb') as f:
+#     pipe = pickle.load(f)
+# with open('./pages/df.pkl','rb') as f:
+#     df = pickle.load(f)
+
+
+
+
+# col1,col2,col3,col4 = st.columns(4)
+
+# property_type = col1.selectbox('Property_type',df['property_type'].unique().tolist())
+# sector = col2.selectbox('Sector',df['sector'].sort_values().unique())
+# built_up_area = col3.number_input(label='Built up Area')
+# agePossession = col4.selectbox('Age of Property',df['agePossession'].unique())
+
+# col1,col2,col3 = st.columns(3)
+
+# bedRoom = col1.selectbox('Bedroom',df['bedRoom'].sort_values().unique())
+# bathroom = col2.selectbox('Bathroom',df['bathroom'].sort_values().unique())
+# balcony = col3.selectbox('balcony',['0', '1','2','3', '3+'])
+
+
+# col1,col2,col3,col4,col5 = st.columns(5)
+
+
+# furnishing_type = col1.selectbox('Furnishing Type',df['furnishing_type'].sort_values().unique())
+# servant = col2.selectbox('servant room',df['servant room'].sort_values().unique())
+# store = col3.selectbox('store room',df['store room'].sort_values().unique())
+
+# floor_category = col4.selectbox('Floor category',df['floor_category'].sort_values().unique())
+# luxury_category = col5.selectbox('Luxury category',df['luxury_category'].sort_values().unique())
+
+
+# if st.button('Predict Price'):
+#     val = [[property_type, sector, bedRoom, bathroom, balcony,
+#        agePossession, built_up_area, servant, store,
+#        furnishing_type, luxury_category, floor_category]]
+#     one_df = pd.DataFrame(val,columns=df.columns)
+#     price = np.round(pipe.predict(one_df),2)
+#     st.subheader(f'The Price of Property will be from {np.round(price-0.22,2)[0]} Cr and {price[0] + 0.22} Cr')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Analysis
+# import streamlit as st
+# import plotly.express as px
+# import pandas  as pd
+# from wordcloud import WordCloud
+# import matplotlib.pyplot as plt
+# import pickle
+# import plotly.figure_factory as ff
+
+
+
+# st.set_page_config(page_title="Plotting Demo")
+
+# st.title('Analytics')
+
+# st.header('Map of Gurugram')
+# new_df = pd.read_csv('./Dataset/data_viz1.csv')
+
+
+# group = new_df.groupby('sector')[['price','price_per_sqft','built_up_area','latitude','longitude']].mean()
+
+
+# fig = px.scatter_mapbox(group, lat="latitude", lon="longitude", color="price_per_sqft", size='built_up_area',
+#                   color_continuous_scale=px.colors.cyclical.IceFire, zoom=10,
+#                   mapbox_style="open-street-map",text=group.index)
+# st.plotly_chart(fig)
+
+# #Price
+# st.header('Price Sectorwise')
+# k = new_df.groupby('sector')['price'].mean().sort_values(ascending=False)
+# fig = px.bar(k, x=k.index, y=k.values)
+
+# # Update the layout with x and y axis labels
+# fig.update_layout(
+#     xaxis_title="Sectors",
+#     yaxis_title="Price (Crore)"
+# )
+# st.plotly_chart(fig)
+
+
+
+# #Flat vs House
+# st.header('Price(Flat vs House)')
+# house_prices = new_df[new_df['property_type'] == 'house']['price']
+# flat_prices = new_df[new_df['property_type'] == 'flat']['price']
+
+# # Create distplots
+# fig = ff.create_distplot([house_prices, flat_prices], ['House Prices', 'Flat Prices'], show_hist=True,show_rug=False)
+
+# # Show the plot
+# st.plotly_chart(fig)
+
+
+# col1 ,col2 = st.columns(2)
+# # Scatter plot
+# with col1:
+#     st.header('Area vs Price')
+
+#     property_type = st.selectbox('Select Property type',['flat','house'])
+#     if property_type == 'flat':
+
+#         fig = px.scatter(new_df[new_df['property_type']=='flat'],y='price',x='built_up_area',color='bedRoom')
+
+#         st.plotly_chart(fig)
+#     else:
+#         fig = px.scatter(new_df[new_df['property_type']=='house'],y='price',x='built_up_area',color='bedRoom')
+
+#         st.plotly_chart(fig)
+
+# ##Pie chart
+# with col2:
+#     st.header('BHK Sectorwise')
+
+#     sector_options = new_df['sector'].unique().tolist()
+#     sector_options.insert(0,'overall')
+
+#     selected_sector = st.selectbox('Select Sector', sector_options)
+
+#     if selected_sector == 'overall':
+
+#         fig2 = px.pie(new_df, names='bedRoom')
+
+#         st.plotly_chart(fig2, use_container_width=True)
+#     else:
+
+#         fig2 = px.pie(new_df[new_df['sector'] == selected_sector], names='bedRoom')
+
+#         st.plotly_chart(fig2, use_container_width=True)
+
+# ##Side by side 
+# st.header('BHK Price Comparison')
+
+# fig3 = px.box(new_df[new_df['bedRoom'] <= 4], x='bedRoom', y='price')
+
+# st.plotly_chart(fig3, use_container_width=True)
+
+
+
+
+# ##Flat vs House
+
+
+
+
+
+
+
+
+
+
+
+
+
+# ##Word Cloud
+# st.header('Sectorwise Word Cloud')
+# with open('./pages/words.pkl','rb') as f:
+#     words = pickle.load(f)
+
+# sector_ = st.selectbox('sector',new_df['sector'].sort_values().unique())
+
+# if sector_:
+#     text = words[words['sector']=='sector 36']['words'][0]
+#     feature_text = ' '.join(text)
+
+#     plt.rcParams["font.family"] = "Arial"
+
+#     wordcloud = WordCloud(width = 800, height = 800, 
+#                         background_color ='white', 
+#                         stopwords = set(['s']),  # Any stopwords you'd like to exclude
+#                         min_font_size = 10).generate(feature_text)
+#     fig,ax = plt.subplots(figsize = (8, 8), facecolor = None)
+#     ax.imshow(wordcloud, interpolation='bilinear') 
+#     ax.axis("off") 
+#     st.pyplot(fig)
